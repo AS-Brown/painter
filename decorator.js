@@ -62,12 +62,4 @@ Decorator.prototype.roomAndPaint3 = function(fullCans, area){
 
 }
 
-// Decorator.prototype.totalStock = function(){
-//     total = 0
-//     for (paint in this.paintStock){
-//         total += paint.litres
-//     }
-//     return total
-// }
-
 module.exports = Decorator
