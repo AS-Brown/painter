@@ -52,7 +52,13 @@ describe('decorator', function(){
     let decorator;
     beforeEach(function(){
         decorator = new Decorator();
-        paint = new Paint(5);
+        paint = new Paint(5)
+        red = new Paint(5);
+        blue = new Paint(3);
+        orange = new Paint(0);
+        green = new Paint(2);
+        purple = new Paint(0);
+        yellow = new Paint(10);
         room = new Room(20)
     })
     it('should be an empty paint stock', function(){
@@ -61,16 +67,22 @@ describe('decorator', function(){
     })
 
     it('should be able to add to stock', function(){
-        decorator.addStock('red')
+        decorator.addStock(red)
         const actual = decorator.numberOfCans()
         assert.deepEqual(actual, 1)
     })
     it('should be able to calculate total litre in stock', function(){
-        decorator.addStock('red')
-        decorator.addStock('blue')
+        decorator.addStock(red)
+        decorator.addStock(blue)
         const totalCans = decorator.numberOfCans()
         const actual =  totalCans * paint.litres
         assert.deepEqual(actual, 10)
+    })
+    it('should be able to calculate total litre in stock2', function(){
+        decorator.addStock(red)
+        decorator.addStock(blue)
+        const actual = decorator.numberOfLitres()
+        assert.deepEqual(actual, 8)
     })
     it('should be able to calculate whether there is enough paint', function(){
         decorator.addStock('red')
@@ -79,6 +91,15 @@ describe('decorator', function(){
         decorator.addStock('yellow')
         const totalCans = decorator.numberOfCans()
         const fullCans =  totalCans * paint.litres
+        const result = decorator.roomAndPaint(fullCans, room.area)
+        assert.deepEqual(result, "There is enough paint")
+    })
+    it('should be able to calculate whether there is enough paint2', function(){
+        decorator.addStock(red)
+        decorator.addStock(blue)
+        decorator.addStock(green)
+        decorator.addStock(yellow)
+        const fullCans = decorator.numberOfLitres()
         const result = decorator.roomAndPaint(fullCans, room.area)
         assert.deepEqual(result, "There is enough paint")
     })
@@ -111,6 +132,37 @@ describe('decorator', function(){
         const actual = room.roomStatus
 
         assert.deepEqual(actual, true)
+    })
+    it('should be able to mark room3', function(){
+        decorator.addStock(red)
+        decorator.addStock(blue)
+        decorator.addStock(green)
+        decorator.addStock(yellow)
+        const fullCans = decorator.numberOfLitres()
+        decorator.roomAndPaint3(fullCans, room.area)
+        const actual = room.roomStatus
+
+        assert.deepEqual(actual, true)
+    })
+    it('should be able to decrease stock', function(){
+        decorator.addStock(red);
+        decorator.addStock(blue);
+        decorator.addStock(green);
+        decorator.addStock(yellow);
+        decorator.roomPaintedRemoveCan(red);
+        var actual = decorator.numberOfLitres();
+        assert.strictEqual(actual, 15);
+    })
+    it('should be able to remove empty cans from stock', function(){
+        decorator.addStock(red);
+        decorator.addStock(blue);
+        decorator.addStock(orange);
+        decorator.addStock(green);
+        decorator.addStock(purple);
+        decorator.addStock(yellow);
+        decorator.removeAllEmpty();
+        const actual = decorator.numberOfCans();
+        assert.strictEqual(actual, 4);
     })
     
 })
